@@ -37,6 +37,7 @@ class GeoFencingService with ChangeNotifier {
     );
 
     EasyGeofencing.getGeofenceStream()!.listen((GeofenceStatus status) {
+      print('tell ------------------------------------------${status}');
       geofenceStatus = status;
       notifyListeners();
     });

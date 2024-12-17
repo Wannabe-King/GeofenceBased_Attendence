@@ -25,7 +25,7 @@ Widget buildTile(
               children: <Widget>[
                 Material(
                     child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(13.0),
                   child: Image.asset(
                     icon,
                     height: 50,

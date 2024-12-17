@@ -22,11 +22,12 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final _formKey = new GlobalKey<FormState>();
-  FirebaseDatabase db = new FirebaseDatabase();
+  FirebaseDatabase db = FirebaseDatabase.instance;
   late DatabaseReference _empIdRef, _userRef;
 
   String? _username;
   String? _password;
+  String? _email; // For sign up process
   String _errorMessage = "";
   late User _user;
   bool formSubmit = false;
@@ -34,8 +35,8 @@ class _LoginState extends State<Login> {
 
   @override
   void initState() {
-    _userRef = db.reference().child("users");
-    _empIdRef = db.reference().child('EmployeeID');
+    _userRef = db.ref().child("users");
+    _empIdRef = db.ref().child('EmployeeID');
     authObject = new Auth();
 
     super.initState();
@@ -70,11 +71,44 @@ class _LoginState extends State<Login> {
             loginUser(email);
           }
         });
+        // signUpAndAddEmployee();
       } catch (e) {
         print(e);
       }
     }
   }
+
+// -----------------------------------------------------------------------------Adding sign up process---------------------------------------------
+
+  void signUpAndAddEmployee() async {
+    if (validateAndSave()) {
+      FocusScope.of(context).unfocus();
+      try {
+        // Sign up the user (using your Firebase Authentication logic)
+        String userId = await authObject.signUp(_email!, _password!);
+
+        // Populate the employee ID collection in Firebase
+        await addEmployeeId(_username!, _email!);
+
+        print('User signed up and employee ID added successfully. $userId');
+      } catch (e) {
+        print('Error during signup: $e');
+      }
+    }
+  }
+
+  Future<void> addEmployeeId(String employeeId, String email) async {
+    try {
+      // Add employeeId and corresponding email to the database
+      await _empIdRef.child(employeeId).set(email);
+      print('Employee ID added successfully.');
+    } catch (e) {
+      print('Error adding employee ID: $e');
+      // Handle the error appropriately (e.g., show a message to the user)
+    }
+  }
+
+  // ------------------------------------------------------------------------------------------------------------------------------------------
 
   Future<List> checkForSingleSignOn(User _user) async {
     DataSnapshot dataSnapshot =
@@ -99,6 +133,7 @@ class _LoginState extends State<Login> {
     if (_password != null) {
       try {
         _user = await authObject.signIn(email, _password!);
+        print(_user);
 
         // checkForSingleSignOn(_user).then((list) {
         //   Navigator.of(context).pop();
@@ -356,7 +391,7 @@ class _LoginState extends State<Login> {
   Widget formCard() {
     return new Container(
       width: double.infinity,
-      height: 260,
+      height: 330,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8.0),
@@ -404,6 +439,29 @@ class _LoginState extends State<Login> {
                   onSaved: (value) => _username = value?.trim(),
                 ),
               ),
+
+              // ----------------------------------------------------Addition for sign up email--------------------------------------------------
+              Container(
+                height: 60,
+                child: TextFormField(
+                  decoration: InputDecoration(
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: dashBoardColor),
+                      ),
+                      icon: Icon(
+                        Icons.mail,
+                        color: dashBoardColor,
+                      ),
+                      hintText: "Email",
+                      hintStyle: TextStyle(color: Colors.grey, fontSize: 15.0)),
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'Username can\'t be empty'
+                      : null,
+                  onSaved: (value) => _email = value?.trim(),
+                ),
+              ),
+
+              //---------------------------------------------------------------------------------------------------------------------------------------
               Container(
                 height: 60,
                 child: TextFormField(
@@ -433,15 +491,15 @@ class _LoginState extends State<Login> {
                 children: <Widget>[
                   TextButton(
                     style: ButtonStyle(
-                      padding: MaterialStateProperty.resolveWith(
+                      padding: WidgetStateProperty.resolveWith(
                         (states) => EdgeInsets.symmetric(horizontal: 16.0),
                       ),
-                      shape: MaterialStateProperty.resolveWith(
+                      shape: WidgetStateProperty.resolveWith(
                         (states) => const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(2.0)),
                         ),
                       ),
-                      backgroundColor: MaterialStateProperty.resolveWith(
+                      backgroundColor: WidgetStateProperty.resolveWith(
                         (states) => Colors.blue,
                       ),
                     ),

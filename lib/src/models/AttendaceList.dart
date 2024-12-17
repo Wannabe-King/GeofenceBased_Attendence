@@ -4,7 +4,7 @@ import 'package:geo_attendance_system/src/ui/constants/attendance_type.dart';
 class AttendanceList {
   DateTime dateTime = DateTime.now();
   List<Attendance> attendanceList = [];
-  final _databaseReference = FirebaseDatabase.instance.reference();
+  final _databaseReference = FirebaseDatabase.instance.ref();
 
   AttendanceList({required this.dateTime,required  this.attendanceList});
 

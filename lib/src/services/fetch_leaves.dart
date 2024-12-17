@@ -4,7 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:geo_attendance_system/src/models/leave.dart';
 
 class LeaveDatabase {
-  final _databaseReference = FirebaseDatabase.instance.reference();
+  final _databaseReference = FirebaseDatabase.instance.ref();
   static final LeaveDatabase _instance = LeaveDatabase._internal();
 
   factory LeaveDatabase() {

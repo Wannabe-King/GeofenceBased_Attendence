@@ -29,7 +29,7 @@ String getFormattedTime(DateTime day) {
 }
 
 class AttendanceDatabase {
-  static final _databaseReference = FirebaseDatabase.instance.reference();
+  static final _databaseReference = FirebaseDatabase.instance.ref();
   static final AttendanceDatabase _instance = AttendanceDatabase._internal();
 
   factory AttendanceDatabase() {

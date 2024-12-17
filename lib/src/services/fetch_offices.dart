@@ -4,7 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:geo_attendance_system/src/models/office.dart';
 
 class OfficeDatabase {
-  final _databaseReference = FirebaseDatabase.instance.reference();
+  final _databaseReference = FirebaseDatabase.instance.ref();
   static final OfficeDatabase _instance = OfficeDatabase._internal();
 
   factory OfficeDatabase() {

@@ -7,7 +7,7 @@ import 'package:geo_attendance_system/src/ui/constants/leave_type.dart';
 import 'fetch_leaves.dart';
 
 class ReviewLeaveDatabase {
-  final _databaseReference = FirebaseDatabase.instance.reference();
+  final _databaseReference = FirebaseDatabase.instance.ref();
   static final ReviewLeaveDatabase _instance = ReviewLeaveDatabase._internal();
   final LeaveDatabase leaveDatabase = new LeaveDatabase();
 

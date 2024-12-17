@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:geo_attendance_system/src/models/leave.dart';
 import 'package:geo_attendance_system/src/services/fetch_pending_leaves.dart';
@@ -13,7 +12,6 @@ class LeaveApprovalByManagerWidget extends StatefulWidget {
       : super(key: key);
   final String title;
   final User user;
-  final FirebaseDatabase db = new FirebaseDatabase();
 
   @override
   LeaveApprovalByManagerWidgetState createState() =>
@@ -64,7 +62,6 @@ class LeaveApprovalByManagerWidgetState
                   );
 
                 case ConnectionState.active:
-
                 case ConnectionState.waiting:
                   return Center(
                     child: CircularProgressIndicator(
@@ -171,12 +168,12 @@ class LeaveApprovalByManagerWidgetState
                 children: <Widget>[
                   ElevatedButton(
                     style: ButtonStyle(
-                      shape: MaterialStateProperty.resolveWith(
+                      shape: WidgetStateProperty.resolveWith(
                         (states) => RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
-                      backgroundColor: MaterialStateProperty.resolveWith(
+                      backgroundColor: WidgetStateProperty.resolveWith(
                           (states) => Colors.green),
                     ),
                     onPressed: () async {
@@ -214,12 +211,12 @@ class LeaveApprovalByManagerWidgetState
                   ),
                   ElevatedButton(
                     style: ButtonStyle(
-                      shape: MaterialStateProperty.resolveWith(
+                      shape: WidgetStateProperty.resolveWith(
                         (states) => RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
-                      backgroundColor: MaterialStateProperty.resolveWith(
+                      backgroundColor: WidgetStateProperty.resolveWith(
                           (states) => Colors.red),
                     ),
                     onPressed: () async {

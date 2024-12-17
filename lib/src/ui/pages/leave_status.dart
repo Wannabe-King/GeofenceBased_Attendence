@@ -12,7 +12,7 @@ class LeaveStatusWidget extends StatefulWidget {
       : super(key: key);
   final String title;
   final User user;
-  final FirebaseDatabase db = new FirebaseDatabase();
+  final FirebaseDatabase db = FirebaseDatabase.instance;
 
   @override
   LeaveStatusWidgetState createState() => LeaveStatusWidgetState();
@@ -62,7 +62,6 @@ class LeaveStatusWidgetState extends State<LeaveStatusWidget> {
                   );
 
                 case ConnectionState.active:
-
                 case ConnectionState.waiting:
                   return Center(
                     child: CircularProgressIndicator(

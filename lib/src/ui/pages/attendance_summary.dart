@@ -134,10 +134,10 @@ class _AttendanceSummaryState extends State<AttendanceSummary>
       firstDay: DateTime(2000),
       lastDay: DateTime.now(),
       // eventLoader: (dateTime) => _events[dateTime]!,
-      onDaySelected: (DateTime selectedDay, DateTime focusedDay){
+      onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
         _selectedDay = selectedDay;
-          _onDaySelected(selectedDay, _selectedEvents);
-          _animationController.forward(from: 0.0);
+        _onDaySelected(selectedDay, _selectedEvents);
+        _animationController.forward(from: 0.0);
       },
       holidayPredicate: (dateTime) => _holidays
           .containsKey(DateTime(dateTime.year, dateTime.month, dateTime.day)),
@@ -171,72 +171,72 @@ class _AttendanceSummaryState extends State<AttendanceSummary>
         formatButtonVisible: false,
       ),
       calendarBuilders: CalendarBuilders(
-        // selectedBuilder: (context, date, _) {
-        //   return FadeTransition(
-        //     opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController),
-        //     child: Container(
-        //       margin: const EdgeInsets.all(4.0),
-        //       padding: const EdgeInsets.only(top: 11.0, left: 12.0),
-        //       decoration: BoxDecoration(
-        //         shape: BoxShape.circle,
-        //         color: Colors.amber[500],
-        //       ),
-        //       width: 100,
-        //       height: 100,
-        //       child: Text(
-        //         '${date.day}',
-        //         style: TextStyle().copyWith(
-        //             fontSize: 18.0,
-        //             color: Colors.white,
-        //             fontWeight: FontWeight.bold),
-        //       ),
-        //     ),
-        //   );
-        // },
-        // todayBuilder: (context, date, _) {
-        //   return Container(
-        //     margin: const EdgeInsets.all(4.0),
-        //     padding: const EdgeInsets.only(top: 11.0, left: 12.0),
-        //     width: 100,
-        //     height: 100,
-        //     child: Text(
-        //       '${date.day}',
-        //       style: TextStyle().copyWith(
-        //           fontSize: 18.0,
-        //           color: Colors.white,
-        //           fontWeight: FontWeight.bold),
-        //     ),
-        //     decoration: BoxDecoration(
-        //       shape: BoxShape.circle,
-        //       color: Color.fromRGBO(29, 209, 161, 1.0),
-        //     ),
-        //   );
-        // },
-        // markersBuilder: (context, date, events, holidays) {
-        //   final children = <Widget>[];
+          // selectedBuilder: (context, date, _) {
+          //   return FadeTransition(
+          //     opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController),
+          //     child: Container(
+          //       margin: const EdgeInsets.all(4.0),
+          //       padding: const EdgeInsets.only(top: 11.0, left: 12.0),
+          //       decoration: BoxDecoration(
+          //         shape: BoxShape.circle,
+          //         color: Colors.amber[500],
+          //       ),
+          //       width: 100,
+          //       height: 100,
+          //       child: Text(
+          //         '${date.day}',
+          //         style: TextStyle().copyWith(
+          //             fontSize: 18.0,
+          //             color: Colors.white,
+          //             fontWeight: FontWeight.bold),
+          //       ),
+          //     ),
+          //   );
+          // },
+          // todayBuilder: (context, date, _) {
+          //   return Container(
+          //     margin: const EdgeInsets.all(4.0),
+          //     padding: const EdgeInsets.only(top: 11.0, left: 12.0),
+          //     width: 100,
+          //     height: 100,
+          //     child: Text(
+          //       '${date.day}',
+          //       style: TextStyle().copyWith(
+          //           fontSize: 18.0,
+          //           color: Colors.white,
+          //           fontWeight: FontWeight.bold),
+          //     ),
+          //     decoration: BoxDecoration(
+          //       shape: BoxShape.circle,
+          //       color: Color.fromRGBO(29, 209, 161, 1.0),
+          //     ),
+          //   );
+          // },
+          // markersBuilder: (context, date, events, holidays) {
+          //   final children = <Widget>[];
 
-        //   if (events.isNotEmpty) {
-        //     children.add(
-        //       Positioned(
-        //         right: 1,
-        //         bottom: 1,
-        //         child: _buildEventsMarker(date, events),
-        //       ),
-        //     );
-        //   }
+          //   if (events.isNotEmpty) {
+          //     children.add(
+          //       Positioned(
+          //         right: 1,
+          //         bottom: 1,
+          //         child: _buildEventsMarker(date, events),
+          //       ),
+          //     );
+          //   }
 
-        //   if (holidays.isNotEmpty) {
-        //     children.add(
-        //       Positioned(
-        //         right: -2,
-        //         top: -2,
-        //         child: _buildHolidaysMarker(),
-        //       ),
-        //     );
-        //   }
-        //   return children;
-        // },
-      ),
+          //   if (holidays.isNotEmpty) {
+          //     children.add(
+          //       Positioned(
+          //         right: -2,
+          //         top: -2,
+          //         child: _buildHolidaysMarker(),
+          //       ),
+          //     );
+          //   }
+          //   return children;
+          // },
+          ),
     );
   }
 

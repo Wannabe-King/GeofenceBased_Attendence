@@ -1,11 +1,12 @@
+// import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+// import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:geo_attendance_system/src/ui/constants/colors.dart';
 import 'package:geo_attendance_system/src/ui/widgets/loader_dialog.dart';
-import 'package:grouped_buttons/grouped_buttons.dart';
+// import 'package:grouped_buttons/grouped_buttons.dart';
 
 import 'leave_status.dart';
 
@@ -14,7 +15,6 @@ class LeaveApplicationWidget extends StatefulWidget {
       : super(key: key);
   final String title;
   final User user;
-  final FirebaseDatabase db = new FirebaseDatabase();
 
   @override
   LeaveApplicationWidgetState createState() => LeaveApplicationWidgetState();
@@ -22,7 +22,7 @@ class LeaveApplicationWidget extends StatefulWidget {
 
 class LeaveApplicationWidgetState extends State<LeaveApplicationWidget>
     with SingleTickerProviderStateMixin {
-  FirebaseDatabase db = FirebaseDatabase();
+  FirebaseDatabase db = FirebaseDatabase.instance;
   User? _user;
   late DatabaseReference _userRef, _managerRef, _leaveRef;
   String _managerName = '', _managerDesignation = '';
@@ -66,9 +66,9 @@ class LeaveApplicationWidgetState extends State<LeaveApplicationWidget>
   @override
   void initState() {
     super.initState();
-    _userRef = db.reference().child("users");
-    _leaveRef = db.reference().child("leaves");
-    _managerRef = db.reference().child("managers");
+    _userRef = db.ref().child("users");
+    _leaveRef = db.ref().child("leaves");
+    _managerRef = db.ref().child("managers");
     _getManager();
     _getLeaves().then((DatabaseEvent databaseEvent) {
       setState(() {
@@ -131,18 +131,31 @@ class LeaveApplicationWidgetState extends State<LeaveApplicationWidget>
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           textTheme: TextTheme(
-              bodyText1: TextStyle(
-                  color: Colors.black87,
-                  fontFamily: "poppins-medium",
-                  fontSize: 15,
-                  letterSpacing: 0.5,
-                  fontWeight: FontWeight.w400),
-              button: TextStyle(
-                  color: Colors.black87,
-                  fontFamily: "poppins-medium",
-                  fontSize: 18,
-                  letterSpacing: 2,
-                  fontWeight: FontWeight.w900))),
+        bodyMedium: TextStyle(
+            color: Colors.black87,
+            fontFamily: "poppins-medium",
+            fontSize: 15,
+            letterSpacing: 0.5,
+            fontWeight: FontWeight.w400),
+        // bodyText1: TextStyle(
+        //     color: Colors.black87,
+        //     fontFamily: "poppins-medium",
+        //     fontSize: 15,
+        //     letterSpacing: 0.5,
+        //     fontWeight: FontWeight.w400),
+        bodySmall: TextStyle(
+            color: Colors.black87,
+            fontFamily: "poppins-medium",
+            fontSize: 18,
+            letterSpacing: 2,
+            fontWeight: FontWeight.w900),
+        // button: TextStyle(
+        //     color: Colors.black87,
+        //     fontFamily: "poppins-medium",
+        //     fontSize: 18,
+        //     letterSpacing: 2,
+        //     fontWeight: FontWeight.w900),
+      )),
       home: Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
@@ -227,58 +240,141 @@ class LeaveApplicationWidgetState extends State<LeaveApplicationWidget>
                                             0, 5, 0, 20),
                                         child: ElevatedButton(
                                           style: ButtonStyle(
-                                            shape: MaterialStateProperty
-                                                .resolveWith(
+                                            shape:
+                                                WidgetStateProperty.resolveWith(
                                               (states) =>
                                                   RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(5.0),
                                               ),
                                             ),
-                                            elevation: MaterialStateProperty
-                                                .resolveWith((states) => 4),
+                                            elevation:
+                                                WidgetStateProperty.resolveWith(
+                                                    (states) => 4),
                                             backgroundColor:
-                                                MaterialStateProperty
-                                                    .resolveWith((states) =>
-                                                        Colors.white),
+                                                WidgetStateProperty.resolveWith(
+                                                    (states) => Colors.white),
                                           ),
-                                          onPressed: () {
-                                            DatePicker.showDatePicker(context,
-                                                theme: DatePickerTheme(
-                                                  containerHeight: 250.0,
-                                                ),
-                                                showTitleActions: true,
-                                                minTime: DateTime(date.year,
-                                                    date.month, date.day),
-                                                maxTime: DateTime(2050, 12, 31),
-                                                onConfirm: (date) {
-                                              print('confirm $date');
-                                              _fromdate =
-                                                  getFormattedDate(date);
+                                          onPressed: () async {
+                                            print('button pressed');
+                                            DateTime? pickedDate =
+                                                await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime
+                                                  .now(), // Date can't be before today
+                                              lastDate: DateTime(2050, 12, 31),
+                                            );
+                                            if (pickedDate != null) {
                                               setState(() {
-                                                _fromDateInt = date;
+                                                _fromDateInt = pickedDate;
+                                                _fromdate = getFormattedDate(
+                                                    pickedDate);
+                                                if (_toDateInt != null) {
+                                                  int _difference = _toDateInt
+                                                          ?.difference(
+                                                              _fromDateInt!)
+                                                          .inDays ??
+                                                      0;
+                                                  _difference += 1;
 
-                                                if (_todate != null) {
-                                                  setState(() {
-                                                    int _difference = _toDateInt
-                                                            ?.difference(
-                                                                _fromDateInt ??
-                                                                    _toDateInt!)
-                                                            .inDays ??
-                                                        0;
-                                                    _difference += 1;
-                                                    if (_difference <= 0)
-                                                      leavesCount =
-                                                          "Invalid Dates";
-                                                    else
-                                                      leavesCount = _difference
-                                                          .toString();
-                                                  });
+                                                  if (_difference <= 0) {
+                                                    leavesCount =
+                                                        "Invalid Dates";
+                                                  } else {
+                                                    leavesCount =
+                                                        _difference.toString();
+                                                  }
                                                 }
                                               });
-                                            },
-                                                currentTime: DateTime.now(),
-                                                locale: LocaleType.en);
+                                            }
+
+                                            // EasyDateTimeLinePicker.itemBuilder(
+                                            //   firstDate: DateTime(date.year,
+                                            //       date.month, date.day),
+                                            //   lastDate: DateTime(2050, 12, 31),
+                                            //   focusedDate: _fromDateInt ??
+                                            //       DateTime.now(),
+                                            //   itemExtent: 64.0,
+                                            //   itemBuilder: (context,
+                                            //       date,
+                                            //       isSelected,
+                                            //       isDisabled,
+                                            //       isToday,
+                                            //       onTap) {
+                                            //     return InkResponse(
+                                            //       onTap: onTap,
+                                            //       child: CircleAvatar(
+                                            //         backgroundColor: isSelected
+                                            //             ? Colors.blue
+                                            //             : null,
+                                            //         child: Text(
+                                            //             date.day.toString()),
+                                            //       ),
+                                            //     );
+                                            //   },
+                                            //   onDateChange: (date) {
+                                            //     setState(() {
+                                            //       _fromDateInt = date;
+                                            //       _fromdate =
+                                            //           getFormattedDate(date);
+
+                                            //       if (_toDateInt != null) {
+                                            //         int _difference = _toDateInt
+                                            //                 ?.difference(
+                                            //                     _fromDateInt!)
+                                            //                 .inDays ??
+                                            //             0;
+                                            //         _difference += 1;
+
+                                            //         if (_difference <= 0) {
+                                            //           leavesCount =
+                                            //               "Invalid Dates";
+                                            //         } else {
+                                            //           leavesCount = _difference
+                                            //               .toString();
+                                            //         }
+                                            //       }
+                                            //     });
+                                            //   },
+                                            // );
+
+                                            // DatePicker.showDatePicker(context,
+                                            //     // theme: DatePickerTheme(
+                                            //     //   containerHeight: 250.0,
+                                            //     // ),
+                                            //     showTitleActions: true,
+                                            //     minTime: DateTime(date.year,
+                                            //         date.month, date.day),
+                                            //     maxTime: DateTime(2050, 12, 31),
+                                            //     onConfirm: (date) {
+                                            //   print('confirm $date');
+                                            //   _fromdate =
+                                            //       getFormattedDate(date);
+                                            //   setState(() {
+                                            //     _fromDateInt = date;
+
+                                            //     if (_todate != null) {
+                                            //       setState(() {
+                                            //         int _difference = _toDateInt
+                                            //                 ?.difference(
+                                            //                     _fromDateInt ??
+                                            //                         _toDateInt!)
+                                            //                 .inDays ??
+                                            //             0;
+                                            //         _difference += 1;
+                                            //         if (_difference <= 0)
+                                            //           leavesCount =
+                                            //               "Invalid Dates";
+                                            //         else
+                                            //           leavesCount = _difference
+                                            //               .toString();
+                                            //       });
+                                            //     }
+                                            //   });
+                                            // },
+                                            //     currentTime: DateTime.now(),
+                                            //     locale: LocaleType.en);
                                           },
                                           child: Container(
                                             alignment: Alignment.center,
@@ -316,36 +412,35 @@ class LeaveApplicationWidgetState extends State<LeaveApplicationWidget>
                                             0, 5, 0, 20),
                                         child: ElevatedButton(
                                           style: ButtonStyle(
-                                            shape: MaterialStateProperty
-                                                .resolveWith(
+                                            shape:
+                                                WidgetStateProperty.resolveWith(
                                               (states) =>
                                                   RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(5.0),
                                               ),
                                             ),
-                                            elevation: MaterialStateProperty
-                                                .resolveWith((states) => 4),
+                                            elevation:
+                                                WidgetStateProperty.resolveWith(
+                                                    (states) => 4),
                                             backgroundColor:
-                                                MaterialStateProperty
-                                                    .resolveWith((states) =>
-                                                        Colors.white),
+                                                WidgetStateProperty.resolveWith(
+                                                    (states) => Colors.white),
                                           ),
-                                          onPressed: () {
-                                            DatePicker.showDatePicker(context,
-                                                theme: DatePickerTheme(
-                                                  containerHeight: 250.0,
-                                                ),
-                                                showTitleActions: true,
-                                                minTime: DateTime(date.year,
-                                                    date.month, date.day),
-                                                maxTime: DateTime(2022, 12, 31),
-                                                onConfirm: (date) {
-                                              print('confirm $date');
-                                              _todate = getFormattedDate(date);
+                                          onPressed: () async {
+                                            DateTime? pickedDate =
+                                                await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime
+                                                  .now(), // Date can't be before today
+                                              lastDate: DateTime(2050, 12, 31),
+                                            );
+                                            if (pickedDate != null) {
                                               setState(() {
-                                                _toDateInt = date;
-
+                                                _toDateInt = pickedDate;
+                                                _todate = getFormattedDate(
+                                                    pickedDate);
                                                 if (_fromDateInt != null) {
                                                   setState(() {
                                                     int _difference = _toDateInt
@@ -364,9 +459,42 @@ class LeaveApplicationWidgetState extends State<LeaveApplicationWidget>
                                                   });
                                                 }
                                               });
-                                            },
-                                                currentTime: DateTime.now(),
-                                                locale: LocaleType.en);
+                                            }
+                                            // DatePicker.showDatePicker(context,
+                                            //     // theme: DatePickerTheme(
+                                            //     //   containerHeight: 250.0,
+                                            //     // ),
+                                            //     showTitleActions: true,
+                                            //     minTime: DateTime(date.year,
+                                            //         date.month, date.day),
+                                            //     maxTime: DateTime(2022, 12, 31),
+                                            //     onConfirm: (date) {
+                                            //   print('confirm $date');
+                                            //   _todate = getFormattedDate(date);
+                                            //   setState(() {
+                                            //     _toDateInt = date;
+
+                                            //     if (_fromDateInt != null) {
+                                            //       setState(() {
+                                            //         int _difference = _toDateInt
+                                            //                 ?.difference(
+                                            //                     _fromDateInt ??
+                                            //                         _toDateInt!)
+                                            //                 .inDays ??
+                                            //             0;
+                                            //         _difference += 1;
+                                            //         if (_difference <= 0)
+                                            //           leavesCount =
+                                            //               "Invalid Dates";
+                                            //         else
+                                            //           leavesCount = _difference
+                                            //               .toString();
+                                            //       });
+                                            //     }
+                                            //   });
+                                            // },
+                                            //     currentTime: DateTime.now(),
+                                            //     locale: LocaleType.en);
                                           },
                                           child: Container(
                                             alignment: Alignment.center,
@@ -408,31 +536,52 @@ class LeaveApplicationWidgetState extends State<LeaveApplicationWidget>
                                       const EdgeInsets.fromLTRB(0, 20, 0, 20),
                                   child: Text('Type of leave'),
                                 ),
-                                CheckboxGroup(
-                                  labels: <String>[
-                                    leaveType[0],
-                                    leaveType[1],
-                                    leaveType[2],
-                                  ],
-                                  checked: _checked,
-                                  activeColor: dashBoardColor,
-                                  onChange: (bool isChecked, String label,
-                                      int index) {
-                                    print(
-                                        "isChecked: $isChecked   label: $label  index: $index");
-                                    leaveIndex = index;
-                                  },
-                                  onSelected: (selected) => setState(() {
-                                    isSelected = true;
-                                    if (selected.length > 1) {
-                                      selected.removeAt(0);
-                                      print(
-                                          'selected length  ${selected.length}');
-                                    } else {
-                                      print("only one");
-                                    }
-                                    _checked = selected;
-                                  }),
+                                // CheckboxGroup(
+                                //   labels: <String>[
+                                //     leaveType[0],
+                                //     leaveType[1],
+                                //     leaveType[2],
+                                //   ],
+                                //   checked: _checked,
+                                //   activeColor: dashBoardColor,
+                                //   onChange: (bool isChecked, String label,
+                                //       int index) {
+                                //     print(
+                                //         "isChecked: $isChecked   label: $label  index: $index");
+                                //     leaveIndex = index;
+                                //   },
+                                //   onSelected: (selected) => setState(() {
+                                //     isSelected = true;
+                                //     if (selected.length > 1) {
+                                //       selected.removeAt(0);
+                                //       print(
+                                //           'selected length  ${selected.length}');
+                                //     } else {
+                                //       print("only one");
+                                //     }
+                                //     _checked = selected;
+                                //   }),
+                                // ),
+                                Column(
+                                  children:
+                                      leaveType.asMap().entries.map((entry) {
+                                    int index = entry.key;
+                                    String label = entry.value;
+
+                                    return RadioListTile<int>(
+                                      title: Text(label),
+                                      value: index,
+                                      groupValue: leaveIndex,
+                                      activeColor: Colors.blue,
+                                      onChanged: (int? value) {
+                                        setState(() {
+                                          leaveIndex = value!;
+                                          print(
+                                              "Selected: $label at index $index");
+                                        });
+                                      },
+                                    );
+                                  }).toList(),
                                 ),
                                 TextField(
                                   autofocus: false,
@@ -457,27 +606,27 @@ class LeaveApplicationWidgetState extends State<LeaveApplicationWidget>
                                     child: ElevatedButton(
                                         style: ButtonStyle(
                                           shape:
-                                              MaterialStateProperty.resolveWith(
+                                              WidgetStateProperty.resolveWith(
                                             (states) => RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(5.0),
                                             ),
                                           ),
                                           elevation:
-                                              MaterialStateProperty.resolveWith(
+                                              WidgetStateProperty.resolveWith(
                                                   (states) {
                                             if (states.contains(
-                                                MaterialState.hovered)) {
+                                                WidgetState.hovered)) {
                                               return 40;
                                             } else {
                                               return 4;
                                             }
                                           }),
                                           backgroundColor:
-                                              MaterialStateProperty.resolveWith(
+                                              WidgetStateProperty.resolveWith(
                                                   (states) {
                                             if (states.contains(
-                                                MaterialState.hovered)) {
+                                                WidgetState.hovered)) {
                                               return splashScreenColorBottom;
                                             } else {
                                               return splashScreenColorTop;
@@ -656,15 +805,15 @@ class LeaveApplicationWidgetState extends State<LeaveApplicationWidget>
             // usually buttons at the bottom of the dialog
             TextButton(
               style: ButtonStyle(
-                padding: MaterialStateProperty.resolveWith(
+                padding: WidgetStateProperty.resolveWith(
                   (states) => EdgeInsets.symmetric(horizontal: 16.0),
                 ),
-                shape: MaterialStateProperty.resolveWith(
+                shape: WidgetStateProperty.resolveWith(
                   (states) => const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(2.0)),
                   ),
                 ),
-                backgroundColor: MaterialStateProperty.resolveWith(
+                backgroundColor: WidgetStateProperty.resolveWith(
                   (states) => Colors.blue,
                 ),
               ),

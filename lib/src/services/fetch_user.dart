@@ -4,7 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:geo_attendance_system/src/models/user.dart';
 
 class UserDatabase {
-  static final _databaseReference = FirebaseDatabase.instance.reference();
+  static final _databaseReference = FirebaseDatabase.instance.ref();
   static final UserDatabase _instance = UserDatabase._internal();
 
   factory UserDatabase() {

@@ -11,11 +11,13 @@
     <application
         android:icon="@mipmap/ic_launcher"
         android:name="${applicationName}"
-        android:label="GeoFlix">
+        android:label="GeoFlix"
+        android:enableOnBackInvokedCallback="true"
+        >
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDSp4rP6uKcwvoFH2MjvOjXQ_hfdyVvzxk" />
+            android:value="AIzaSyA5mh3ijWpac903bB0uJsALP_lb1P64dKE" />
         <activity
             android:name="io.flutter.embedding.android.FlutterActivity"
             android:exported="true"

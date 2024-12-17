@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage>
   late AnimationController controller;
 
   OfficeDatabase officeDatabase = new OfficeDatabase();
-  final _databaseReference = FirebaseDatabase.instance.reference();
+  final _databaseReference = FirebaseDatabase.instance.ref();
   var geoFenceActive = false;
   late PermissionStatus result;
   String? error;
@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage>
       switch (result) {
         case PermissionStatus.granted:
           officeDatabase.getOfficeBasedOnUID(widget.user.uid).then((office) {
-            print(office.latitude);
+            print(office.radius);
 
             GeoFencing.of(context).service.startGeofencing(office);
 
@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage>
                 children: <Widget>[
                   ElevatedButton(
                     style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.resolveWith(
+                        backgroundColor: WidgetStateProperty.resolveWith(
                             (states) => Colors.blue)),
                     onPressed: () {
                       Navigator.of(context).pop();

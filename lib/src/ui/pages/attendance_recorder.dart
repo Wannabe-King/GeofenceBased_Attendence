@@ -203,6 +203,7 @@ class AttendanceRecorderWidgetState extends State<AttendanceRecorderWidget> {
               ));
     } else {
       onLoadingDialog(context);
+      print(widget.user.uid);
       officeDatabase.getOfficeBasedOnUID(widget.user.uid).then((office) {
         markInAttendance(
             context, office, _currentLocation!, widget.user, geofenceStatus);
