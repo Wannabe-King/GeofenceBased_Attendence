@@ -41,14 +41,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  calendar_date_picker2:
-    dependency: "direct main"
-    description:
-      name: calendar_date_picker2
-      sha256: b5169b1e6aea0890ff4acaa037c81b697e985b149da64ae53e96afcfebb2e18e
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.8"
   characters:
     dependency: transitive
     description:
@@ -97,14 +89,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
-  easy_date_timeline:
-    dependency: "direct main"
-    description:
-      name: easy_date_timeline
-      sha256: c6103e6487e9bf04f991ea762eff14672c2c111e80a5a4b0e308540a202a62c2
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.4"
   easy_geofencing:
     dependency: "direct main"
     description:
@@ -238,6 +222,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_config:
+    dependency: "direct main"
+    description:
+      name: flutter_config
+      sha256: a07e6156bb6e776e29c6357be433155acda87d1dab1a3f787a72091a1b71ffbf
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   flutter_local_notifications:
     dependency: "direct main"
     description:
@@ -262,11 +254,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "8.0.0"
-  flutter_localizations:
-    dependency: transitive
-    description: flutter
-    source: sdk
-    version: "0.0.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:

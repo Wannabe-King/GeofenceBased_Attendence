@@ -17,7 +17,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA5mh3ijWpac903bB0uJsALP_lb1P64dKE" />
+            android:value="@string/GOOGLE_MAPS_API_KEY" />
         <activity
             android:name="io.flutter.embedding.android.FlutterActivity"
             android:exported="true"
