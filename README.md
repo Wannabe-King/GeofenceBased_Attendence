@@ -22,9 +22,6 @@
 or reject the leaves applied for, by an employee under him.
 - **Cloud Notification** - Push Notifications on leave status change
 
-### Admin Application
-<a href="https://github.com/deepaktiwari88/HR-Management-and-Geo-Attendance-System-Admin-App">Link to Administrator Application</a>
-
 ## Setting Up the Project
 
 ### Firebase Console Set up
@@ -81,9 +78,8 @@ src="assets/github/leave_make.jpg" width="200"> &nbsp; <img
 src="assets/github/leave_status.jpg" width="200"> &nbsp; <img
 src="assets/github/calendar.jpg" width="200">
 
-## Our TEAM 🤘
+## Our TEAM
 
-- <a href="https://github.com/deepaktiwari88">Deepak Tiwari</a>
-- <a href="https://github.com/arunav11">Arunav Sharma</a>
-- <a href="https://github.com/agargya123">Avantika Gargya</a>
-- <a href="https://github.com/divy4nsh">Divyansh Singh</a>
+1. Priyanshu Sidar
+2. Ashutosh Dewangan
+3. Jitendra Dewangan
