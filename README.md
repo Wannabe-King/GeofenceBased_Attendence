@@ -9,6 +9,22 @@
   for the management of employees, as well as increase the efficiency of
   time and error rate for an organisation.
 
+## APK
+<a href="https://drive.google.com/file/d/1FXkYa0FM0_1Cih2wogDLDV_z2Ww43rly/view?usp=sharing">Geoflix.apk</a>
+
+## Screenshots
+
+
+<img src="assets/github/landing.jpg" width="200" > &nbsp; <img
+src="assets/github/login.jpg" width="200"> &nbsp; <img
+src="assets/github/drawer.jpg" width="200"> &nbsp; <img
+src="assets/github/dashboard.jpg" width="200"> &nbsp; <img
+src="assets/github/make_attendance.jpg" width="200"> &nbsp; <img
+src="assets/github/mark_attendance.jpg" width="200"> &nbsp; <img
+src="assets/github/leave_make.jpg" width="200"> &nbsp; <img
+src="assets/github/leave_status.jpg" width="200"> &nbsp; <img
+src="assets/github/calendar.jpg" width="200">
+
 ## Features Included
 
 - **Employee Registration** – This feature will allow an employee to
@@ -65,18 +81,7 @@ flutter pub get
 flutter run
 ```
 
-## Screenshots
 
-
-<img src="assets/github/landing.jpg" width="200" > &nbsp; <img
-src="assets/github/login.jpg" width="200"> &nbsp; <img
-src="assets/github/drawer.jpg" width="200"> &nbsp; <img
-src="assets/github/dashboard.jpg" width="200"> &nbsp; <img
-src="assets/github/make_attendance.jpg" width="200"> &nbsp; <img
-src="assets/github/mark_attendance.jpg" width="200"> &nbsp; <img
-src="assets/github/leave_make.jpg" width="200"> &nbsp; <img
-src="assets/github/leave_status.jpg" width="200"> &nbsp; <img
-src="assets/github/calendar.jpg" width="200">
 
 ## Our TEAM
 
